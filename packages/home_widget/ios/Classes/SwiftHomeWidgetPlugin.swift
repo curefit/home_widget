@@ -112,7 +112,6 @@ public class SwiftHomeWidgetPlugin: NSObject, FlutterPlugin, FlutterStreamHandle
             details: nil))
       }
     } else if call.method == "updateWidget" {
-
       guard let args = call.arguments else {
         return
       }
@@ -136,6 +135,18 @@ public class SwiftHomeWidgetPlugin: NSObject, FlutterPlugin, FlutterStreamHandle
             code: "-3", message: "InvalidArguments updateWidget must be called with name",
             details: nil))
       }
+    } else if call.method == "updateAllWidgets" {
+        if #available(iOS 14.0, *) {
+          #if arch(arm64) || arch(i386) || arch(x86_64)
+            WidgetCenter.shared.reloadAllTimelines()
+            result(true)
+          #endif
+        } else {
+          result(
+            FlutterError(
+              code: "-4", message: "Widgets are only available on iOS 14.0 and above", details: nil)
+          )
+        }
     } else if call.method == "initiallyLaunchedFromHomeWidget" {
       if SwiftHomeWidgetPlugin.groupId == nil {
         result(notInitializedError)

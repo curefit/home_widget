@@ -50,6 +50,10 @@ class HomeWidget {
     });
   }
 
+  static Future<bool?> updateAllWidgets() {
+    return _channel.invokeMethod('updateAllWidgets');
+  }
+
   /// Determines whether pinning HomeScreen Widget is supported.
   static Future<bool?> isRequestPinWidgetSupported() {
     return _channel.invokeMethod('isRequestPinWidgetSupported');
